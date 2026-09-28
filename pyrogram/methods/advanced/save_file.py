@@ -39,7 +39,7 @@ from pyrogram.session import Session
 log = logging.getLogger(__name__)
 
 PART_SIZE = 512 * 1024
-POOL_SIZE = 20
+POOL_SIZE = int(os.environ.get("WZGRAM_UPLOAD_POOL_MAX", 24))
 MAX_RETRIES = 16
 STALL_TIMEOUT = 900
 READ_BUFFER = 4 * 1024 * 1024
@@ -204,8 +204,9 @@ class SaveFile:
             is_big = file_size > 10 * 1024 * 1024
             pool_cap = max(1, math.ceil((file_total_parts - file_part) / 2))
             if is_bot:
-                rate_limit = int(os.environ.get("WZGRAM_UPLOAD_RATE_BOT", 120))
-                pool_size = min(int(os.environ.get("WZGRAM_UPLOAD_POOL_BOT", 8)), POOL_SIZE, pool_cap)
+                # Uncapped 24 TCP sockets & 2,000 req/s rate limit for Bot Tokens
+                rate_limit = int(os.environ.get("WZGRAM_UPLOAD_RATE_BOT", 2000))
+                pool_size = min(int(os.environ.get("WZGRAM_UPLOAD_POOL_BOT", 24)), POOL_SIZE, pool_cap)
             elif is_premium:
                 rate_limit = int(os.environ.get("WZGRAM_UPLOAD_RATE_PREMIUM", 300))
                 pool_size = min(int(os.environ.get("WZGRAM_UPLOAD_POOL_PREMIUM", 14)), POOL_SIZE, pool_cap)

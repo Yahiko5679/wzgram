@@ -447,7 +447,7 @@ class Client(Methods):
     MAX_READ_AHEAD_CHUNKS = int(os.environ.get("WZGRAM_MAX_READ_AHEAD", 64))
 
     DOWNLOAD_POOL_SIZE = 4  # fallback default
-    MEDIA_POOL_CAP = 16
+    MEDIA_POOL_CAP = int(os.environ.get("WZGRAM_MEDIA_POOL_CAP", 24))
     MAX_CONCURRENT_TRANSMISSIONS = 16
     MAX_MESSAGE_CACHE_SIZE = 1000
     MAX_TOPIC_CACHE_SIZE = 1000
@@ -1552,10 +1552,10 @@ class Client(Methods):
                 _is_premium = self.me.is_premium if hasattr(self.me, 'is_premium') else False
 
                 if _is_bot:
-                    dl_pool_size = int(os.environ.get("WZGRAM_DL_POOL_BOT", 5))
-                    dl_workers_per_session = int(os.environ.get("WZGRAM_DL_WORKERS_BOT", 3))
-                    dl_rate = int(os.environ.get("WZGRAM_DL_RATE_BOT", 100))
-                    dl_burst = int(os.environ.get("WZGRAM_DL_BURST_BOT", 25))
+                    dl_pool_size = int(os.environ.get("WZGRAM_DL_POOL_BOT", 16))
+                    dl_workers_per_session = int(os.environ.get("WZGRAM_DL_WORKERS_BOT", 2))
+                    dl_rate = int(os.environ.get("WZGRAM_DL_RATE_BOT", 2000))
+                    dl_burst = int(os.environ.get("WZGRAM_DL_BURST_BOT", 100))
                 elif _is_premium:
                     dl_pool_size = int(os.environ.get("WZGRAM_DL_POOL_PREMIUM", 6))
                     dl_workers_per_session = int(os.environ.get("WZGRAM_DL_WORKERS_PREMIUM", 4))
