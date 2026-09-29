@@ -447,7 +447,7 @@ class Client(Methods):
     MAX_READ_AHEAD_CHUNKS = int(os.environ.get("WZGRAM_MAX_READ_AHEAD", 64))
 
     DOWNLOAD_POOL_SIZE = 4  # fallback default
-    MEDIA_POOL_CAP = int(os.environ.get("WZGRAM_MEDIA_POOL_CAP", 24))
+    MEDIA_POOL_CAP = int(os.environ.get("WZGRAM_MEDIA_POOL_CAP", 16))
     MAX_CONCURRENT_TRANSMISSIONS = 16
     MAX_MESSAGE_CACHE_SIZE = 1000
     MAX_TOPIC_CACHE_SIZE = 1000
